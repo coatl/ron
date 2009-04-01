@@ -25,9 +25,12 @@ module Ron
         root=nil
         graphwalk(obj){|cntr,o,i,ty|
           newo= block_given? && (yield cntr,o,i,ty,useit=[false]) 
-          useit.first or newo ||=
-            old2new[o.__id__] ||= root ||= o.dup
-          ty.new(old2new[cntr.__id__],i,1){newo}.replace
+          useit.first or newo= old2new[o.__id__] ||= o.dup rescue o
+          begin
+            ty.new(old2new[cntr.__id__],i,1){newo}.replace
+          rescue Ron::GraphEdge::ReplaceAtTopLevel
+            root=newo
+          end
         }
         return root
       end
