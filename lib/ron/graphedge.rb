@@ -309,10 +309,13 @@ module Ron
       end
       
       def replace(newval=new_value)
-        huh #can't really replace values in toplevel context...???
+        #can't really replace values in toplevel context...???
+        raise ReplaceAtTopLevel
       end
     
     end
+    
+    class ReplaceAtTopLevel < RuntimeError; end
     
     
   end
