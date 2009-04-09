@@ -20,6 +20,21 @@ module Ron
   module GraphWalk
     class<<self
       #--------------------------------
+      def graphmodify!(obj)
+        root=nil
+        graphwalk(obj){|cntr,o,i,ty|
+          newo= yield cntr,o,i,ty,useit=[false]
+          useit.first or next
+          if Ron::GraphEdge::TopLevel===ty
+            root=newo
+          else
+            ty.new(cntr,i,1){newo}.replace
+          end
+        }
+        return root
+      end
+      
+      #--------------------------------
       def graphcopy(obj)
         old2new={}
         root=nil
