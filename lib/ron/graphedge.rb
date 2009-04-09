@@ -41,10 +41,11 @@ module Ron
         graphwalk(obj){|cntr,o,i,ty|
           newo= block_given? && (yield cntr,o,i,ty,useit=[false]) 
           useit.first or newo= old2new[o.__id__] ||= o.dup rescue o
-          begin
-            ty.new(old2new[cntr.__id__],i,1){newo}.replace
-          rescue Ron::GraphEdge::ReplaceAtTopLevel
+          #IO objects really shouldn't be dup'd here
+          if Ron::GraphEdge::TopLevel===ty
             root=newo
+          else
+            ty.new(old2new[cntr.__id__],i,1){newo}.replace
           end
         }
         return root
