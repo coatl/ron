@@ -52,6 +52,20 @@ module Ron
       end
     
       #--------------------------------
+      def abortable_graphwalk(obj)
+        return unless yield nil,obj,nil,GraphEdge::TopLevel
+        todolist=[obj]
+        donelist=Set[]
+        todolist.each{|o|
+          traverse(o){|cntr,o2,i,ty|
+            unless donelist.include? [cntr.__id__,ty,i]
+              donelist<<[cntr.__id__,ty,i]
+              todolist<<o2 if yield cntr,o2,i,ty
+            end
+          }
+        }
+      end
+      #--------------------------------
       def traverse(obj)
       #some other container types should be explicitly
       #supported here: Set, Struct, OpenStruct, SuperStruct, Tree
