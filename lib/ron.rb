@@ -126,6 +126,7 @@ def SelfReferencing #old name alias
   Recursive(v=Object.new, yield(v))
 end
 alias SelfReferential SelfReferencing  #old name alias
+def Ron.Recursive(*args); super end
 
 class Object
   def with_ivars(hash)
