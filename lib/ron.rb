@@ -304,7 +304,9 @@ class Binding
   end
   
   class<<self
-  def - h
+  def -(*args)
+    h=args.first
+    return super unless ::Hash===h
     h=h.dup
     the_self=h.delete :self
     the_block=(h.delete :yield) || nil
@@ -433,9 +435,11 @@ stmt=Recursive(stmt={},
 #Class#-
 class Class
   #construct an instance of a class from the data in hash
-  def - hash
+  def -(*args)
+    hash=args.first
     #name.empty? and huh
     Array===hash and return make( *hash )
+    return super unless ::Hash===hash
     allocate.instance_eval{
       hash.each{|(k,v)| 
         if ?@==k.to_s[0] 
@@ -455,7 +459,9 @@ class<<Struct
   def new *args
     result=new__no_minus_op(*args)
     class<<result
-  def - hash
+  def -(*args)
+    hash=args.first
+    return super unless ::Hash===hash
     name.empty? and huh
     result=allocate
     hash.each{|(k,v)| result[k]=v }
