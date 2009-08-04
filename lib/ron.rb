@@ -109,8 +109,8 @@ SelfReferential=SelfReferencing  #old name alias
 
 def Recursive *args #marker='foo',data
     marker,data=*case args.size
-    when 2: args
-    when 1: [::Ron::DefaultMarker,args.last]
+    when 2; args
+    when 1; [::Ron::DefaultMarker,args.last]
     else raise ArgumentError
     end
 

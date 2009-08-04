@@ -88,29 +88,29 @@ module Ron
       #maybe others i don't know? sparse array/sparse matrix?
       #ordered hashes?
         case obj
-        when nil: #do nothing
-        when (Set if defined? Set),(WeakRefSet if defined? WeakRefSet):
+        when nil; #do nothing
+        when (Set if defined? Set),(WeakRefSet if defined? WeakRefSet)
           obj.each{|elem|
             yield(obj,elem, elem, GraphEdge::SetMember)
           }
-        when Struct:
+        when Struct;
           obj.members.each{|mem|
             yield(obj,obj[mem],mem, GraphEdge::BracketsValue)
           }
-        when Hash:
+        when Hash;
           obj.each{|(i,elem)| 
             yield(obj,elem,i, GraphEdge::HashValue)          
             yield(obj,i,i, GraphEdge::HashKey)
           }
-        when Array:
+        when Array;
           obj.each_with_index{|elem,i| 
             yield(obj,elem,i, GraphEdge::Array)
           }
-        when Range:
+        when Range;
           yield(obj,obj.first, :first, GraphEdge::ObjectMethValue)
           yield(obj,obj.last, :last, GraphEdge::ObjectMethValue)        
-        #when RBTree:  huh
-        when (ActiveRecord::Base if defined? ActiveRecord): 
+        #when RBTree;  huh
+        when (ActiveRecord::Base if defined? ActiveRecord) 
           obj.columns.each{|mem|
             yield(obj,obj[mem],mem, GraphEdge::BracketsValue)
           }
