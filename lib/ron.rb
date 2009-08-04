@@ -1,7 +1,7 @@
 #require 'warning'
 require 'ron/graphedge'
-
-
+require 'sequence' # WeakRefSet
+require 'continuation' # Continuation
 
 #to_ron
 
@@ -261,7 +261,7 @@ end
 END
 Ron::IGNORED_INSTANCE_VARIABLES[Set]=%w[@hash]
 Ron::IGNORED_INSTANCE_VARIABLES[SortedSet]=%w[@hash @keys]
-Ron::IGNORED_INSTANCE_VARIABLES[WeakRefSet]=%w[@ids]
+Ron::IGNORED_INSTANCE_VARIABLES[Sequence::WeakRefSet]=%w[@ids]
 
 class Range
   def to_ron_list session
