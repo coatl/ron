@@ -1,7 +1,6 @@
 #require 'warning'
 require 'ron/graphedge'
-require 'sequence' # WeakRefSet
-require 'continuation' # Continuation
+require 'continuation' unless defined? Continuation
 
 #to_ron
 
@@ -225,7 +224,7 @@ class Object
         result.last.replace "}"
       else
         #append instance_eval
-        ivars=instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[self.class]
+        ivars=instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[self.class.name]
         ivars.empty? or result.push ".with_ivars(", *ivars.map{|iv| 
           [":",iv.to_s,"=>",instance_variable_get(iv).to_ron_list2(session),', ']
         }.flatten[0...-1]<<")"
@@ -251,17 +250,17 @@ class Struct
   end
 end
 
-sets=[:Set,:SortedSet,:WeakRefSet]
-eval sets.map{|k| <<END }.to_s 
-class #{k} #{'< Set' if k==:SortedSet}
+class Set
   def to_ron_list session
-    ['#{k}[']+map{|i| i.to_ron_list2(session)<<', ' }.flatten<<"]"
+    self.class.name+"["+
+      map{|i| i.to_ron_list2(session)}.join ", "
+    "]"
   end
 end
-END
-Ron::IGNORED_INSTANCE_VARIABLES[Set]=%w[@hash]
-Ron::IGNORED_INSTANCE_VARIABLES[SortedSet]=%w[@hash @keys]
-Ron::IGNORED_INSTANCE_VARIABLES[Sequence::WeakRefSet]=%w[@ids]
+
+Ron::IGNORED_INSTANCE_VARIABLES["Set"]=%w[@hash]
+Ron::IGNORED_INSTANCE_VARIABLES["SortedSet"]=%w[@hash @keys]
+Ron::IGNORED_INSTANCE_VARIABLES["Sequence::WeakRefSet"]=%w[@ids]
 
 class Range
   def to_ron_list session
