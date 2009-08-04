@@ -129,7 +129,7 @@ data.each{|datum|
   assert_equal internal_state(datum), internal_state(dup)
  
   if case datum
-     when Fixnum,Symbol,true,false,nil: false
+     when Fixnum,Symbol,true,false,nil; false
      else true
      end
   datum.instance_eval{@a,@b=1,2}
@@ -143,7 +143,7 @@ data.each{|datum|
 }
 data.each{|datum|
   if case datum
-     when Fixnum,Symbol,true,false,nil: false
+     when Fixnum,Symbol,true,false,nil; false
      else true
      end
   datum.instance_eval{@d=data}
@@ -169,7 +169,7 @@ data2.each{|datum|
   assert_equal internal_state(datum).to_yaml, internal_state(dup).to_yaml
  
   if case datum
-     when Fixnum,Symbol,true,false,nil: false
+     when Fixnum,Symbol,true,false,nil; false
      else true
      end
   datum.instance_eval{@a,@b=1,2}
@@ -187,7 +187,7 @@ datum= ((w=WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
   assert_equal internal_state(datum).inspect, internal_state(dup).inspect
  
   if case datum
-     when Fixnum,Symbol,true,false,nil: false
+     when Fixnum,Symbol,true,false,nil; false
      else true
      end
   datum.instance_eval{@a,@b=1,2}
@@ -201,7 +201,7 @@ datum= ((w=WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
 
 data2.each{|datum| 
   if case datum
-     when Fixnum,Symbol,true,false,nil: false
+     when Fixnum,Symbol,true,false,nil; false
      else true
      end
   datum.instance_eval{@d=data;@e=data2}
