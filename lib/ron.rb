@@ -252,12 +252,12 @@ end
 
 class Set
   def to_ron_list session
-    self.class.name+"["+
-      map{|i| i.to_ron_list2(session)}.join ", "
+    [self.class.name,"[",
+      map{|i| i.to_ron_list2(session)<<", "},
     "]"
+    ].flatten
   end
 end
-
 Ron::IGNORED_INSTANCE_VARIABLES["Set"]=%w[@hash]
 Ron::IGNORED_INSTANCE_VARIABLES["SortedSet"]=%w[@hash @keys]
 Ron::IGNORED_INSTANCE_VARIABLES["Sequence::WeakRefSet"]=%w[@ids]
