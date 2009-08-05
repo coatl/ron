@@ -89,7 +89,7 @@ module Ron
       #ordered hashes?
         case obj
         when nil; #do nothing
-        when (Set if defined? Set),(WeakRefSet if defined? WeakRefSet)
+        when (Set if defined? Set)
           obj.each{|elem|
             yield(obj,elem, elem, GraphEdge::SetMember)
           }
