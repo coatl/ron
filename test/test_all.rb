@@ -15,8 +15,7 @@ rescue Exception
 end
 
 try_require 'rubygems' 
-try_require("sequence")
-try_require("weakrefset")
+try_require("sequence/weakrefset")
 try_require 'facets/more/superstruct' 
 
 $Verbose=true
@@ -112,7 +111,7 @@ data=[
  [1,2,3],
  {1=>2,3=>4},
  Set[1,2,3],
- (WeakRefSet[*%w[a b c]] rescue warn 'weakrefset test disabled'),
+ (Sequence::WeakRefSet[*%w[a b c]] rescue warn 'weakrefset test disabled'),
  A_Class.new,
  2,
  :symbol,
@@ -181,7 +180,7 @@ data2.each{|datum|
   assert_equal internal_state(datum).to_yaml, internal_state(dup).to_yaml
   end
 }
-datum= ((w=WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
+datum= ((w=Sequence::WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
   assert_equal datum.inspect, datum.inspect
   assert_equal datum.inspect, ( dup=eval datum.to_ron ).inspect
   assert_equal internal_state(datum).inspect, internal_state(dup).inspect
