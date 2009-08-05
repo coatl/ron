@@ -212,7 +212,7 @@ data2.each{|datum|
 end
 
 def internal_state x
-  list=(x.instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[x.class]).sort
+  list=(x.instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[x.class.name]).sort
   [list]+list.map{|iv| x.instance_variable_get(iv)}
 end
 
