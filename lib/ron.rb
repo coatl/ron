@@ -1,3 +1,6 @@
+# Copyright (C) 2009  Caleb Clausen
+# Distributed under the terms of Ruby's license.
+
 #require 'warning'
 require 'ron/graphedge'
 require 'continuation' unless defined? Continuation

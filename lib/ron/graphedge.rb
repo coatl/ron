@@ -1,3 +1,6 @@
+# Copyright (C) 2009  Caleb Clausen
+# Distributed under the terms of Ruby's license.
+
 require 'forwardable'
 require 'set'
 #require 'assert'
