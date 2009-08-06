@@ -1,3 +1,4 @@
+=== DESCRIPTION
 Well, who needed another serialization format? Not me, but that's
 what I've made. Ruby Object Notation (Ron) is a textual format for
 the representation of Ruby data structures. It's somewhat like
