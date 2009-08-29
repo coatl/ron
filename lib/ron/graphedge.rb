@@ -158,7 +158,6 @@ module Ron
     def initialize(context,index,len=1,&newval_code)
        len>=0 or raise ArgumentError
       @context,@index,@len,@newval_code=context,index,len,newval_code
-      ObjectSpace.define_finalizer(@context,(method :context_died))
     end
     attr_reader :index,:len,:context
     
