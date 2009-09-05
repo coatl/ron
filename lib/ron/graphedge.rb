@@ -38,7 +38,12 @@ module Ron
       end
       
       #--------------------------------
-      def graphcopy(obj)
+      #
+      #NOTE: breadth_graphcopy has a problem; since graphwalk is not depth-first,
+      #      if a node is replaced, the subnodes of the new node will not be walked.
+      #      Instead, the old nodes will be walked.
+      #      If this causes problems, use depth_graphcopy instead
+      def breadth_graphcopy(obj)
         old2new={}
         root=nil
         graphwalk(obj){|cntr,o,i,ty|
@@ -53,8 +58,26 @@ module Ron
         }
         return root
       end
+
+      #--------------------------------
+      def depth_graphcopy(obj)
+        root=nil
+        depth_graphwalk(obj){|cntr,o,i,ty|
+          newo=yield cntr,o,i,ty,useit=[false] if block_given?
+          newo= o.clone rescue o unless useit.first
+          #IO objects really shouldn't be dup'd here
+          if Ron::GraphEdge::TopLevel==ty
+            root=newo
+          else
+            ty.new(cntr,i,1){newo}.replace
+          end
+        }
+        return root
+      end
+      alias graphcopy depth_graphcopy
       
       #--------------------------------
+      #breadth-first walk of an object graph
       def graphwalk(obj)
         yield nil,obj,nil,GraphEdge::TopLevel
         todolist=[obj]
@@ -69,7 +92,18 @@ module Ron
           }
         }
       end
-    
+      alias breadth_graphwalk graphwalk
+
+      #--------------------------------
+      #depth-first walk of an object graph
+      def depth_graphwalk(obj,container=nil,index=nil,type=GraphEdge::TopLevel,seen=Set[],&block)
+        seen<<[container.__id__,type,index]
+        traverse(obj){|cntr,o,i,ty|
+          depth_graphwalk(o,cntr,i,ty,seen,&block) unless seen.include? [cntr.__id__,ty,i]
+        }
+        block[ container,obj,index,type ]
+      end
+
       #--------------------------------
       def abortable_graphwalk(obj)
         return unless yield nil,obj,nil,GraphEdge::TopLevel
