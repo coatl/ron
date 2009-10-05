@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-require './lib/ron/version'
+require "#{File.dirname(__FILE__)}/lib/ron/version"
 Ron::Description=open("README.txt"){|f| f.read[/^==+ ?description[^\n]*?\n *\n?(.*?\n *\n.*?)\n *\n/im,1] }
 Ron::Latest_changes="###"+open("History.txt"){|f| f.read[/\A===(.*?)(?====)/m,1] }
 
