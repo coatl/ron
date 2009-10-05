@@ -69,6 +69,30 @@ def == bm
 end
 end
 
+class MyString<String
+  attr_accessor :ivar
+end
+
+class MyRegexp<Regexp
+  attr_accessor :ivar
+end
+
+class MyArray<Array
+  attr_accessor :ivar
+end
+
+class MyHash<Hash
+  attr_accessor :ivar
+end
+
+class MyRange<Range
+  attr_accessor :ivar
+end
+
+module M
+end
+
+
 class RonTest<Test::Unit::TestCase
 
 def test_ron
@@ -121,6 +145,11 @@ data=[
  true,
  false,
  
+ MyString.new,
+ MyRegexp.new(//),
+ MyArray.new,
+ MyHash.new,
+ MyRange.new(1,2)
  
 ]
 data.each{|datum|
@@ -162,6 +191,11 @@ data2=[
  (h={};h[h]=0;h),
  (h={};h[h]=h;h),
  (s=Set[];s<<s;s),
+ (o=MyString.new; o.ivar=o; o),
+ (o=MyRegexp.new(//); o.ivar=o; o),
+ (o=MyArray.new; o.ivar=o; o),
+ (o=MyHash.new; o.ivar=o; o),
+ (o=MyRange.new(1,2); o.ivar=o; o),
 ]
 data2.each{|datum|
  #p datum
