@@ -43,8 +43,7 @@ module Ron
       #      if a node is replaced, the subnodes of the new node will not be walked.
       #      Instead, the old nodes will be walked.
       #      If this causes problems, use depth_graphcopy instead
-      def breadth_graphcopy(obj)
-        old2new={}
+      def breadth_graphcopy(obj,old2new={})
         root=nil
         graphwalk(obj){|cntr,o,i,ty|
           newo= block_given? && (yield cntr,o,i,ty,useit=[false]) 
@@ -60,7 +59,7 @@ module Ron
       end
 
       #--------------------------------
-      def depth_graphcopy(obj)
+      def depth_graphcopy(obj,old2new={})
         root=nil
         depth_graphwalk(obj){|cntr,o,i,ty|
           newo=yield cntr,o,i,ty,useit=[false] if block_given?
