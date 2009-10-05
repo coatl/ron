@@ -224,9 +224,9 @@ module Ron
     
     def call; replace; end
     
-    def context_died
-      @context=nil
-    end
+#    def context_died
+#      @context=nil
+#    end
     
     def new_value
       @newval_code[self]
