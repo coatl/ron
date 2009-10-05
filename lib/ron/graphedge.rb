@@ -215,6 +215,7 @@ module Ron
     def initialize(context,index,len=1,&newval_code)
        len>=0 or raise ArgumentError
       @context,@index,@len,@newval_code=context,index,len,newval_code
+      fail unless @context
     end
     attr_reader :index,:len,:context
     
