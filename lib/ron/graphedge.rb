@@ -47,11 +47,18 @@ module Ron
         root=nil
         breadth_graphwalk(obj){|cntr,o,i,ty|
           newo= block_given? && (yield cntr,o,i,ty,useit=[false]) 
-          useit.first or newo= old2new[o.__id__] ||= o.clone rescue o
+          if useit.first 
+            #fail unless newo
+            old2new[o.__id__]=newo
+          else 
+            #fail unless o
+            newo= old2new[o.__id__] ||= (o.clone rescue o)
+          end
           #IO objects really shouldn't be dup'd here
           if Ron::GraphEdge::TopLevel==ty
             root=newo
           else
+            #fail unless old2new.has_key? cntr.__id__
             ty.new(old2new[cntr.__id__],i,1){newo}.replace
           end
         }
