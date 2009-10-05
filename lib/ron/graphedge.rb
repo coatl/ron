@@ -68,6 +68,7 @@ module Ron
       #--------------------------------
       def depth_graphcopy(obj,old2new={})
         root=nil
+        changes=[]
         depth_graphwalk(obj){|cntr,o,i,ty|
           newo=yield cntr,o,i,ty,useit=[false] if block_given?
           newo= o.clone rescue o unless useit.first
@@ -75,9 +76,14 @@ module Ron
           if Ron::GraphEdge::TopLevel==ty
             root=newo
           else
-            ty.new(cntr,i,1){newo}.replace
+            changes.push ty,cntr.__id__,i,newo
           end
         }
+        until changes.empty?
+          ty,cntr_id,i,newo=*changes.slice!(-4,4)
+          new_cntr=old2new[cntr_id]
+          ty.new(new_cntr,i,1){newo}.replace if old2new.has_key? cntr_id
+        end
         return root
       end
       alias graphcopy depth_graphcopy
