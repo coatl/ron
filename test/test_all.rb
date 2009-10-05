@@ -179,6 +179,10 @@ data.each{|datum|
   datum.instance_eval{@d=data}
   assert datum, ( dup=eval datum.to_ron )
   assert internal_state(datum), internal_state(dup)
+  
+  datum.extend(M)
+  assert datum, ( dup=eval datum.to_ron )
+  assert internal_state(datum), internal_state(dup)  
   end
 }
 
@@ -214,6 +218,10 @@ data2.each{|datum|
   datum.instance_eval{@c=self}
   assert_equal datum.to_yaml, ( dup=eval datum.to_ron ).to_yaml
   assert_equal internal_state(datum).to_yaml, internal_state(dup).to_yaml
+
+  datum.extend(M)
+  assert datum, ( dup=eval datum.to_ron )
+  assert internal_state(datum), internal_state(dup)  
   end
 }
 datum= ((w=Sequence::WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
@@ -232,6 +240,10 @@ datum= ((w=Sequence::WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled'
   datum.instance_eval{@c=self}
   assert_equal datum.inspect, ( dup=eval datum.to_ron ).inspect
   assert_equal internal_state(datum).inspect, internal_state(dup).inspect
+
+  datum.extend(M)
+  assert datum, ( dup=eval datum.to_ron )
+  assert internal_state(datum), internal_state(dup)  
   end
 
 data2.each{|datum| 
@@ -249,7 +261,7 @@ end
 
 def internal_state x
   list=(x.instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[x.class.name]).sort
-  [list]+list.map{|iv| x.instance_variable_get(iv)}
+  [x.class,class<<x;ancestors end,list]+list.map{|iv| x.instance_variable_get(iv)}
 end
 
 end
