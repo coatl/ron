@@ -150,7 +150,7 @@ module Ron
         case obj
         when nil; #do nothing
         when (Set if defined? Set)
-          obj.each{|elem|
+          obj.dup.each{|elem|
             yield(obj,elem, elem, GraphEdge::SetMember)
           }
         when Struct;
@@ -158,12 +158,12 @@ module Ron
             yield(obj,obj[mem],mem, GraphEdge::BracketsValue)
           }
         when Hash;
-          obj.each{|(i,elem)| 
+          obj.keys.each{|i| elem=obj[i]
             yield(obj,elem,i, GraphEdge::HashValue)          
             yield(obj,i,i, GraphEdge::HashKey)
           }
         when Array;
-          obj.each_with_index{|elem,i| 
+          (obj.size-1).downto(0){|i| elem=obj[i]
             yield(obj,elem,i, GraphEdge::Array)
           }
         when Range;
