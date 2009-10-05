@@ -45,7 +45,7 @@ module Ron
       #      If this causes problems, use depth_graphcopy instead
       def breadth_graphcopy(obj,old2new={})
         root=nil
-        graphwalk(obj){|cntr,o,i,ty|
+        breadth_graphwalk(obj){|cntr,o,i,ty|
           newo= block_given? && (yield cntr,o,i,ty,useit=[false]) 
           useit.first or newo= old2new[o.__id__] ||= o.clone rescue o
           #IO objects really shouldn't be dup'd here
