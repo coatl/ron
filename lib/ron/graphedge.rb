@@ -71,7 +71,18 @@ module Ron
         changes=[]
         depth_graphwalk(obj){|cntr,o,i,ty|
           newo=yield cntr,o,i,ty,useit=[false] if block_given?
-          newo= o.clone rescue o unless useit.first
+          if useit.first
+            #p [cntr.id,cntr,o,:>>,newo,newo.last.__id__]
+            old2new[o.__id__]=o #bad, bad... shouldn't be refs to old tree in old2new
+          else
+            begin
+              newo=o.clone
+            rescue Exception
+              newo=o
+            else
+              old2new[o.__id__]=newo
+            end
+          end
           #IO objects really shouldn't be dup'd here
           if Ron::GraphEdge::TopLevel==ty
             root=newo
