@@ -18,6 +18,8 @@ try_require 'rubygems'
 try_require("sequence/weakrefset")
 try_require 'facets/more/superstruct' 
 
+require "test/test_graphcopy"
+
 $Verbose=true
 
 =begin
