@@ -109,8 +109,8 @@ s2.instance_variable_set(:@n, ss)
 s1=1.0
 s2=2.0
 sss=SortedSet[s1,s2]
-s1.instance_variable_set(:@n, sss)
-s2.instance_variable_set(:@n, sss)
+s1.instance_variable_set(:@o, sss)
+s2.instance_variable_set(:@o, sss)
 
  sss.inspect  #disable this and tests fail...  why?!?!?
 data=[
