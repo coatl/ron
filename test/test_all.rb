@@ -261,9 +261,15 @@ data2.each{|datum|
 }
 end
 
+def nonrecursive_ancestors_of x
+  class<<x;ancestors end-[Recursive]
+rescue TypeError
+  []
+end
+
 def internal_state x
   list=(x.instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[x.class.name]).sort
-  [x.class,class<<x;ancestors end,list]+list.map{|iv| x.instance_variable_get(iv)}
+  [x.class,nonrecursive_ancestors_of(x),list]+list.map{|iv| x.instance_variable_get(iv)}
 end
 
 end
