@@ -199,6 +199,8 @@ data2=[
  (o=MyRegexp.new(//); o.ivar=o; o),
  (o=MyArray.new; o.ivar=o; o),
  (o=MyHash.new; o.ivar=o; o),
+ (o=MyArray.new; o<<o),
+ (o=MyHash.new; o[1]=o; o),
  (o=MyRange.new(1,2); o.ivar=o; o),
 ]
 data2.each{|datum|
