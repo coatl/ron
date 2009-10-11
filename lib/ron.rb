@@ -150,9 +150,16 @@ end
 [Fixnum,NilClass,FalseClass,TrueClass,Symbol].each{|k| 
   k.class_eval{ alias to_ron inspect; undef to_ron_list }
 }
-[Bignum,Float,].each{|k| 
-  k.class_eval{ def to_ron_list(session) [inspect] end }
-}
+
+class Bignum
+  def to_ron_list(session) [inspect] end
+end
+
+class Float
+  def to_ron_list(session) 
+    ["%.#{Float::MANT_DIG+1}e"%self]
+  end
+end
 
 class String
     def to_ron_list session
