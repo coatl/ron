@@ -213,8 +213,8 @@ data2=[
  (o=MyHash.new; o[1]=o; o),
  (o=MyRange.new(1,2); o.ivar=o; o),
 ]
-data2.each{|datum|
- #p datum
+  data2.each{|datum|
+  #p datum
   assert_equal datum.to_yaml, datum.to_yaml
   assert_equal datum.to_yaml, ( dup=eval datum.to_ron ).to_yaml
   assert_equal internal_state(datum).to_yaml, internal_state(dup).to_yaml
@@ -235,8 +235,8 @@ data2.each{|datum|
   assert datum, ( dup=eval datum.to_ron )
   assert internal_state(datum), internal_state(dup)  
   end
-}
-datum= ((w=Sequence::WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
+  }
+  datum= ((w=Sequence::WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
   assert_equal datum.inspect, datum.inspect
   assert_equal datum.inspect, ( dup=eval datum.to_ron ).inspect
   assert_equal internal_state(datum).inspect, internal_state(dup).inspect
