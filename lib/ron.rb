@@ -255,12 +255,18 @@ class Object
       result=to_ron_list(session).unshift str
       if result.last=="}#end object literal" 
         result.last.replace "}"
+        was_obj_syntax=true
       else
         #append instance_eval
         ivars=instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[self.class.name]
         ivars.empty? or result.push ".with_ivars(", *ivars.map{|iv| 
           [":",iv.to_s,"=>",instance_variable_get(iv).to_ron_list2(session),', ']
         }.flatten[0...-1]<<")"
+      end
+      extensions=Ron::extension_modules_of(self)
+      unless extensions.empty?
+        result=["(",result,")"] if was_obj_syntax
+        result.push ".extend(",extensions,")"
       end
       result.push ")" if str[/^Recursive\(/]
       session.objects_seen[__id__]=[session.objects_in_progress.pop[1]]
