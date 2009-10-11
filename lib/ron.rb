@@ -46,6 +46,8 @@ module Ron
     ancs=class<<obj; ancestors end
     ancs=ancs[0...ancs.index(obj.class)]
     return ancs
+  rescue TypeError
+    return []
   end
   
   CaptureCtx=[]
