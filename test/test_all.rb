@@ -114,8 +114,10 @@ s2.instance_variable_set(:@o, sss)
 
  sss.inspect  #disable this and tests fail...  why?!?!?
 data=[
-
+ 34565.23458888888*0.5,
+ 45245.765735422567*0.5,
  3.14159,
+ 1.2345678901234567,
  2**2000,
 
  "string",
