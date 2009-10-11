@@ -180,20 +180,32 @@ end
 
 class Array
   def to_ron_list session
-    ["["] + 
+    result=["["] + 
      map{|i| 
           i.to_ron_list2(session)<<', ' 
         }.flatten<<
     "]"
+    result.unshift self.class.name unless self.class==Array
+    result
   end
 end
 
 class Hash
   def to_ron_list session
-    ["{"]+map{|k,v| 
-      Array(k.to_ron_list2(session)).push "=>",
+    if self.class==Hash
+      leader="{"
+      trailer="}"
+      sep="=>"
+    else
+      leader=self.class.name+"["
+      trailer="]"
+      sep=","
+    end
+
+    [leader]+map{|k,v| 
+      Array(k.to_ron_list2(session)).push sep,
           v.to_ron_list2(session)<<', ' 
-    }.flatten<<"}"
+    }.flatten<<trailer
   end
 end
 
