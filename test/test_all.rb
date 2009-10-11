@@ -173,6 +173,11 @@ data.each{|datum|
   datum.instance_eval{@c=self}
   assert_equal datum, ( dup=eval datum.to_ron )
   assert_equal internal_state(datum), internal_state(dup)
+
+  datum.extend(M)
+  assert_equal datum, ( dup=eval datum.to_ron )
+  assert_equal internal_state(datum), internal_state(dup)  
+  assert M===dup
   end
 }
 data.each{|datum|
