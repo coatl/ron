@@ -113,6 +113,7 @@ s1.instance_variable_set(:@o, sss)
 s2.instance_variable_set(:@o, sss)
 
  sss.inspect  #disable this and tests fail...  why?!?!?
+strongrefs=%w[a b c]
 data=[
  34565.23458888888*0.5,
  45245.765735422567*0.5,
@@ -139,7 +140,7 @@ data=[
  [1,2,3],
  {1=>2,3=>4},
  Set[1,2,3],
- (Sequence::WeakRefSet[*%w[a b c]] rescue warn 'weakrefset test disabled'),
+ (Sequence::WeakRefSet[*strongrefs] rescue warn 'weakrefset test disabled'),
  A_Class.new,
  2,
  :symbol,
