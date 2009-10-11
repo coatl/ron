@@ -151,11 +151,13 @@ data=[
  MyRegexp.new(//),
  MyArray.new,
  MyHash.new,
- MyRange.new(1,2)
- 
+ MyRange.new(1,2),
+
+ "\\",
+ "'", 
 ]
 data.each{|datum|
- # p datum
+  #p datum
   assert_equal datum, datum
   assert_equal datum, ( dup=eval datum.to_ron )
   assert_equal internal_state(datum), internal_state(dup)
