@@ -217,24 +217,37 @@ data2=[
   data2.each{|datum|
   #p datum
   assert_equal datum.to_yaml, datum.to_yaml
-  assert_equal datum.to_yaml, ( dup=eval datum.to_ron ).to_yaml
-  assert_equal internal_state(datum).to_yaml, internal_state(dup).to_yaml
+  dup=eval datum.to_ron
+  dup.inspect #shouldn't be needed
+  assert_equal datum.to_yaml, dup.to_yaml
+  assert_equal internal_state(datum)[0...2], internal_state(dup)[0...2]
+  assert_equal internal_state(datum)[2..-1].to_yaml, internal_state(dup)[2..-1].to_yaml
  
   if case datum
      when Fixnum,Symbol,true,false,nil; false
      else true
      end
   datum.instance_eval{@a,@b=1,2}
-  assert_equal datum.to_yaml, ( dup=eval datum.to_ron ).to_yaml
-  assert_equal internal_state(datum).to_yaml, internal_state(dup).to_yaml
+  dup=eval datum.to_ron
+  dup.inspect #shouldn't be needed
+  assert_equal datum.to_yaml,  dup.to_yaml
+  assert_equal internal_state(datum)[0...2], internal_state(dup)[0...2]
+  assert_equal internal_state(datum)[2..-1].to_yaml, internal_state(dup)[2..-1].to_yaml
 
   datum.instance_eval{@c=self}
-  assert_equal datum.to_yaml, ( dup=eval datum.to_ron ).to_yaml
-  assert_equal internal_state(datum).to_yaml, internal_state(dup).to_yaml
+  dup=eval datum.to_ron
+  dup.inspect #shouldn't be needed
+  assert_equal datum.to_yaml, dup.to_yaml
+  assert_equal internal_state(datum)[0...2], internal_state(dup)[0...2]
+  assert_equal internal_state(datum)[2..-1].to_yaml, internal_state(dup)[2..-1].to_yaml
 
   datum.extend(M)
-  assert datum, ( dup=eval datum.to_ron )
-  assert internal_state(datum), internal_state(dup)  
+  dup=eval datum.to_ron
+  dup.inspect #shouldn't be needed
+  assert_equal datum.to_yaml, dup.to_yaml
+  assert_equal internal_state(datum)[0...2], internal_state(dup)[0...2]
+  assert_equal internal_state(datum)[2..-1].to_yaml, internal_state(dup)[2..-1].to_yaml  
+  assert M===dup
   end
   }
   datum= ((w=Sequence::WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
