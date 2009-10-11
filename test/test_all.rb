@@ -207,7 +207,6 @@ data2=[
  (h={};h[h]=h;h),
  (s=Set[];s<<s;s),
  (o=MyString.new; o.ivar=o; o),
- (o=MyRegexp.new(//); o.ivar=o; o),
  (o=MyArray.new; o.ivar=o; o),
  (o=MyHash.new; o.ivar=o; o),
  (o=MyArray.new; o<<o),
@@ -255,10 +254,6 @@ data2=[
   assert_equal datum.inspect, ( dup=eval datum.to_ron ).inspect
   assert_equal internal_state(datum).inspect, internal_state(dup).inspect
  
-  if case datum
-     when Fixnum,Symbol,true,false,nil; false
-     else true
-     end
   datum.instance_eval{@a,@b=1,2}
   assert_equal datum.inspect, ( dup=eval datum.to_ron ).inspect
   assert_equal internal_state(datum).inspect, internal_state(dup).inspect
@@ -267,22 +262,13 @@ data2=[
   assert_equal datum.inspect, ( dup=eval datum.to_ron ).inspect
   assert_equal internal_state(datum).inspect, internal_state(dup).inspect
 
-  datum.extend(M)
-  assert datum, ( dup=eval datum.to_ron )
-  assert internal_state(datum), internal_state(dup)  
-  end
-
-data2.each{|datum| 
-  if case datum
-     when Fixnum,Symbol,true,false,nil; false
-     else true
-     end
-  datum.instance_eval{@d=data;@e=data2}
-#breaks yaml
- # assert_equal datum.to_yaml, ( dup=eval datum.to_ron ).to_yaml
- # assert_equal internal_state(datum).to_yaml, internal_state(dup).to_yaml
-  end
-}
+  datum= (o=MyRegexp.new(//); o.ivar=o; o)
+  ron=datum.to_ron
+  assert_match %r"Recursive\(v\d+_=\{\}, MyRegexp\.new\(\"\"\)\.with_ivars\(:@ivar=>v\d+_\)\)", ron
+  assert_equal datum,eval(ron)
+  datum.extend M
+  ron=datum.to_ron
+  assert M===eval(ron)
 end
 
 def nonrecursive_ancestors_of x
