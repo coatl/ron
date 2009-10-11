@@ -163,8 +163,11 @@ end
 
 class String
     def to_ron_list session
-      
-      [ "'", gsub(/['\\]/){ '\\\\'+$&}, "'" ]
+      result= [ "'", gsub(/['\\]/){ '\\'+$&}, "'" ]
+      if self.class!=String
+        result=[self.class.name, ".new(", result, ")"]
+      end
+      result
     end
 end
 
