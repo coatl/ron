@@ -59,13 +59,13 @@ module Ron
   
     o1.class==o2.class and
       case o1
-      when Array: 
+      when Array 
         o1.size==o2.size and
         o1.each_with_index{|i1,idx|
           recurse_safe_objects_equal?(i1,o2[idx],session) or return
         }
       
-      when Hash:
+      when Hash
         #oops, this depends on #== and #hash working right for recursive structures, which they don't.
         o1.size==o2.size or return      
         recurse_safe_objects_equal? o1.default,o2.default,session or return
@@ -73,28 +73,28 @@ module Ron
           return unless (o2.key? idx and recurse_safe_objects_equal? i1, o2[idx],session)
         }
 
-      when Range:
+      when Range
         o1.exclude_end?()==o2.exclude_end?() and
         recurse_safe_objects_equal? o1.begin, o2.begin,session and 
         recurse_safe_objects_equal? o1.end, o2.end,session 
 
-      when Struct:
+      when Struct
         (mems=o1.members).size==o2.members.size and 
         mems.each{|i|
           recurse_safe_objects_equal? o1[i], (o2[i] rescue return),session or return
         }
-      when Binding:
+      when Binding
         recurse_safe_objects_equal? o1.to_h, o2.to_h, session
-      when Proc,Integer,Float,String:
+      when Proc,Integer,Float,String
         o1==o2
       when Thread,ThreadGroup,Process,IO,Symbol,
-           Continuation,Class,Module:
+           Continuation,Class,Module
              return o1.equal?(o2)
-      when Exception:
+      when Exception
         o1.message==o2.message
-      when MatchData: 
+      when MatchData 
         o1.to_a==o2.to_a
-      when Time:
+      when Time
         o1.eql? o2
       else true
       end and
