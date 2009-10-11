@@ -173,8 +173,11 @@ end
 
 class Regexp
     def to_ron_list session
-      
-      [ inspect ]
+      if self.class==Regexp      
+        [ inspect ]
+      else
+        [self.class.name, ".new(", self.source.inspect, ")"]
+      end
     end
 end
 
@@ -304,7 +307,7 @@ Ron::IGNORED_INSTANCE_VARIABLES["Sequence::WeakRefSet"]=%w[@ids]
 class Range
   def to_ron_list session
 #    result=
-           ["Range.new(",first.to_ron_list2(session), ", ",
+           [self.class.name, ".new(",first.to_ron_list2(session), ", ",
                   last.to_ron_list2(session),
                   (", true" if exclude_end?),
             ")"
