@@ -41,6 +41,12 @@ module Ron
   def self.load str
     eval str
   end
+
+  def self.extension_modules_of(obj)
+    ancs=class<<obj; ancestors end
+    ancs=ancs[0...ancs.index(obj.class)]
+    return ancs
+  end
   
   CaptureCtx=[]
 =begin  
