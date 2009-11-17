@@ -1,3 +1,29 @@
+=== 0.1.2 / 2009-11-15
+* 4 Major Bugfixes:
+  * preserve modules an object was extended by 
+    * (but not Recursive, which is an artifact of using ron)
+  * single quote and backslash now handled right in String
+  * all significant digits now preserved in Float
+  * many small improvements to object graph copying (see below)
+
+* 3 Minor Bugfixes:
+  * preserve classes of descendants Regexp, Range, Array and Hash
+  * improved 1.9 compatibility
+  * many changes to tests to improve coverage and correctness
+    * also, tests now work around bugs in yaml
+
+* 1 Minor Enhancement:
+  * reworked build/gem scripts
+
+* Improvements to object graph copying:
+  * depth-first copying is now available
+  * call may pass in a hash of objects to replace
+  * replacements when parent is nil or false are now an error
+  * protect against changes to hash, set, or array during traversal
+  * avoid inf-loop if replacing item with many items
+  * now possible to replace an object with another that contains the first
+  * in depth_graphcopy, delay all changes til right before the end
+
 === 0.1.1 / 2009-08-05
 * 1 Major Enhancement:
   * significant improvements and bugfixes in graphcopy 
