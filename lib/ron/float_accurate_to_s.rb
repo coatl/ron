@@ -1,3 +1,9 @@
+begin #redparse/float_accurate_to_s overrides this one, if present
+  require 'redparse/float_accurate_to_s'
+  overridden=true
+rescue Exception #and ignore
+end
+
 class Float
   SIZE=[1.1].pack("d").size
   BITSIZE=SIZE*8
@@ -92,7 +98,21 @@ class Float
       return [lead,digits<<last,"e",exp].join
     end
   end
-end
+end unless overridden
+
+=begin not quite accurate, tho
+class String
+  def accurate_to_f
+    all,sign,int,frac,exp=*self.match(/\A([+-])?([0-9_]+)(?:\.([0-9_]+))?(?:[eE]([+-]?[0-9_]+))?/)
+    exp=exp.to_i||0
+    exp-=frac.size
+    mantissa=sign<<int<<frac
+    mantissa=mantissa.to_f
+    scale=10.0**exp
+    return mantissa*scale
+  end
+end unless overridden
+=end
 
 eval DATA.read if __FILE__==$0
 __END__
