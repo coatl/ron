@@ -3,7 +3,7 @@
   * preserve modules an object was extended by 
     * (but not Recursive, which is an artifact of using ron)
   * single quote and backslash now handled right in String
-  * all significant digits now preserved in Float
+  * all significant digits now preserved in Float (really)
   * many small improvements to object graph copying (see below)
 
 * 3 Minor Bugfixes:
