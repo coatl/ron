@@ -218,7 +218,7 @@ class Object
     #warning "additional modules not handled"
       #warning "prettified output not supported"
     
-    to_ron_list2.to_s
+    to_ron_list2.join
   end
   
   def to_ron_list session
