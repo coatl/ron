@@ -157,7 +157,7 @@ end
 
 class Float
   def to_ron_list(session) 
-    ["%.#{Float::MANT_DIG+1}e"%self]
+    [accurate_to_s]
   end
 end
 
