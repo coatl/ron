@@ -72,6 +72,25 @@ class Float
         upper=mid
       end
     end
+  ensure
+
+    #try to drop unneeded trailing digits
+    if digits
+      digits=digits.to_s
+      begin
+        last=digits.slice! -1
+        result=[lead,digits,"e",exp].join.to_f
+      end while result==self or result.zero?
+      roundup=(digits.to_i+1).to_s
+      if roundup.size>digits.size
+        exp+=1
+        digits="0"+digits
+      end
+      roundup.slice! /0+\Z/
+      roundup=[lead,roundup,"e",exp].join
+      return roundup if roundup.to_f==self
+      return [lead,digits<<last,"e",exp].join
+    end
   end
 end
 
