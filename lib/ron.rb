@@ -4,6 +4,7 @@
 #require 'warning'
 require 'ron/graphedge'
 require 'continuation' unless defined? Continuation
+require 'ron/float_accurate_to_s'
 
 #to_ron
 
