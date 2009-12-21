@@ -1,4 +1,4 @@
-=== 0.1.2 / 2009-11-15
+=== 0.1.2 / 21dec2009
 * 4 Major Bugfixes:
   * preserve modules an object was extended by 
     * (but not Recursive, which is an artifact of using ron)
@@ -24,7 +24,7 @@
   * now possible to replace an object with another that contains the first
   * in depth_graphcopy, delay all changes til right before the end
 
-=== 0.1.1 / 2009-08-05
+=== 0.1.1 / 5aug2009
 * 1 Major Enhancement:
   * significant improvements and bugfixes in graphcopy 
 
@@ -33,7 +33,7 @@
   * ported to ruby 1.9
   * rewrote Class#- to be more compatible with Reg
 
-=== 0.1.0 / 2006-10-07
+=== 0.1.0 / 7oct2006
 
 * 1 major enhancement
   * Birthday!
