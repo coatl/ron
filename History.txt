@@ -1,14 +1,14 @@
 === 0.1.2 / 21dec2009
-* 4 Major Bugfixes:
+* 5 Major Bugfixes:
   * preserve modules an object was extended by 
     * (but not Recursive, which is an artifact of using ron)
   * single quote and backslash now handled right in String
   * all significant digits now preserved in Float (really)
   * many small improvements to object graph copying (see below)
+  * ported to MRI 1.9
 
-* 3 Minor Bugfixes:
+* 2 Minor Bugfixes:
   * preserve classes of descendants Regexp, Range, Array and Hash
-  * improved 1.9 compatibility
   * many changes to tests to improve coverage and correctness
     * also, tests now work around bugs in yaml
 
