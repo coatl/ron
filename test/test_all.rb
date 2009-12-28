@@ -158,6 +158,7 @@ data=[
  "'", 
 ]
 data.each{|datum|
+  GC.disable
   #p datum
   assert_equal datum, datum
   assert_equal datum, ( dup=eval datum.to_ron )
@@ -180,8 +181,10 @@ data.each{|datum|
   assert_equal internal_state(datum), internal_state(dup)  
   assert M===dup
   end
+  GC.enable
 }
 data.each{|datum|
+  GC.disable
   if case datum
      when Fixnum,Symbol,true,false,nil; false
      else true
@@ -195,6 +198,7 @@ data.each{|datum|
   assert_equal internal_state(datum), internal_state(dup)  
   assert M===dup
   end
+  GC.enable
 }
 
 data2=[
@@ -214,6 +218,7 @@ data2=[
  (o=MyRange.new(1,2); o.ivar=o; o),
 ]
   data2.each{|datum|
+  GC.disable
   #p datum
   assert_equal datum.to_yaml, datum.to_yaml
   dup=eval datum.to_ron
@@ -248,7 +253,9 @@ data2=[
   assert_equal internal_state(datum)[2..-1].to_yaml, internal_state(dup)[2..-1].to_yaml  
   assert M===dup
   end
+  GC.enable
   }
+  GC.disable
   datum= ((w=Sequence::WeakRefSet[];w<<w;w) rescue warn 'weakrefset test disabled')
   assert_equal datum.inspect, datum.inspect
   assert_equal datum.inspect, ( dup=eval datum.to_ron ).inspect
@@ -269,6 +276,7 @@ data2=[
   datum.extend M
   ron=datum.to_ron
   assert M===eval(ron)
+  GC.enable
 end
 
 def nonrecursive_ancestors_of x
