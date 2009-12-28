@@ -342,7 +342,7 @@ class Binding
     l<<"self"
     h={}
     l.each{|i| h[i.to_sym]=Kernel::eval i, self }
-    h[:yield]=Kernel::eval "block_given? and proc{|*a| #,&b\n yield(*a) #,&b\n}", self
+    h[:yield]=Kernel::eval "block_given? and proc{|*a__| #,&b__\n yield(*a__) #,&b__\n}", self
     h
   end
   
