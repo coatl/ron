@@ -248,9 +248,22 @@ module Ron
         context[@index]
       end
       
-      def replace(*newvals)
-        newvals.empty? and newvals=[new_value]
-        context[@index]=*newvals
+
+      a=[]
+      a[0]=*[1]
+      if a==[1]
+        def replace(*newvals)
+          newvals.empty? and newvals=[new_value]
+          context[@index]=*newvals
+        end
+      elsif a==[[1]] #goddamn 1.9 array multiple assignment semantics!
+        def replace(*newvals)         
+          if newvals.empty? then newvals=new_value
+          elsif newvals.size==1 then newvals=newvals[0]
+          end
+          context[@index]=newvals
+        end
+      else fail
       end
     end
 
