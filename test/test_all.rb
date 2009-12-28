@@ -190,12 +190,12 @@ data.each{|datum|
      else true
      end
   datum.instance_eval{@d=data}
-  assert datum, ( dup=eval datum.to_ron )
-  assert internal_state(datum), internal_state(dup)
+  assert_equal datum, ( dup=eval datum.to_ron )
+  assert_equal internal_state(datum), internal_state(dup)
   
   datum.extend(M)
   assert_equal datum, ( dup=eval datum.to_ron )
-  assert_equal internal_state(datum), internal_state(dup)  
+  assert_equal internal_state(datum), internal_state(dup)
   assert M===dup
   end
   GC.enable
