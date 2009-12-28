@@ -362,7 +362,6 @@ class Binding
     newmname=result=nil
 
     eval "
-          Thread.critical=true
            newmname=class<<the_self;
              mname=oldmname='#{mname}'
              im=instance_methods
@@ -386,7 +385,6 @@ class Binding
           else
            [:alias_method, mname, oldmname]
           end)
-          Thread.critical=false
           result
   end
   alias from_h -
