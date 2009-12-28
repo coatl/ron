@@ -86,7 +86,7 @@ module ForModule
     #column_order defaults to attribute order if not given
     cols=(@COLUMN_ORDER if defined? @COLUMN_ORDER) || @REG_ATTRIBUTE_ORDER
 
-    meths=instance_methods(false)
+    meths=instance_methods(false).map{|im| im.to_s}
 
     module_eval <<-"END"
       private #utility methods

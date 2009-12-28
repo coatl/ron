@@ -262,7 +262,9 @@ class Object
         was_obj_syntax=true
       else
         #append instance_eval
-        ivars=instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[self.class.name]
+        ivars=instance_variables
+        ivars.map!{|iv| iv.to_s } if Symbol===ivars.first
+        ivars-=::Ron::IGNORED_INSTANCE_VARIABLES[self.class.name]
         ivars.empty? or result.push ".with_ivars(", *ivars.map{|iv| 
           [":",iv.to_s,"=>",instance_variable_get(iv).to_ron_list2(session),', ']
         }.flatten[0...-1]<<")"
@@ -364,7 +366,8 @@ class Binding
           Thread.critical=true
            newmname=class<<the_self;
              mname=oldmname='#{mname}'
-             im=instance_methods(false)
+             im=instance_methods
+             im.map!{|sym| sym.to_s} if Symbol===im.first
              mname+='-' while im.include? mname
              alias_method mname, oldmname
              def #{mname}

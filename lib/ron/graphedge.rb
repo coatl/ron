@@ -177,7 +177,7 @@ module Ron
         end
          #traverse instance vars in any case
           obj.instance_variables.each{|var|
-            yield obj, (obj.instance_variable_get var), var, GraphEdge::ObjectIvarValue
+            yield obj, (obj.instance_variable_get var), var.to_s, GraphEdge::ObjectIvarValue
           }
       end
       
