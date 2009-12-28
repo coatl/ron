@@ -96,7 +96,6 @@ end
 class RonTest<Test::Unit::TestCase
 
 def test_ron
-
 s1=1.0
 s2=2.0
 range=s1..s2
@@ -286,7 +285,7 @@ rescue TypeError
 end
 
 def internal_state x
-  list=(x.instance_variables-::Ron::IGNORED_INSTANCE_VARIABLES[x.class.name]).sort
+  list=(x.instance_variables.map!{|iv| iv.to_s}-::Ron::IGNORED_INSTANCE_VARIABLES[x.class.name]).sort
   [x.class,nonrecursive_ancestors_of(x),list]+list.map{|iv| x.instance_variable_get(iv)}
 end
 
