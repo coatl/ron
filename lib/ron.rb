@@ -51,7 +51,6 @@ module Ron
     return []
   end
   
-  CaptureCtx=[]
 =begin  
   def self.recurse_safe_objects_equal?(o1,o2,session={})
     pair=[o1.__id__,o2.__id__]
@@ -358,7 +357,7 @@ class Binding
     keys.empty? or
     code=keys.map{|k| 
       k.to_s
-    }.join(',')+'=*::Ron::CaptureCtx.last'
+    }.join(',')+',=*Thread.current[:$__Ron__CaptureCtx]'
     mname="Ron__capture_binding#{Thread.current.object_id}" #unlikely method name
     newmname=result=nil
 
@@ -377,9 +376,9 @@ class Binding
              mname
            end
          " 
-          ::Ron::CaptureCtx.push h.values
+          Thread.current[:$__Ron__CaptureCtx]= h.values
           result=the_self.send mname, &the_block
-          ::Ron::CaptureCtx.pop
+          Thread.current[:$__Ron__CaptureCtx]=nil
           class<<the_self;
              self
           end.send(*if newmname==mname
