@@ -418,22 +418,20 @@ UnboundMethod,
 
 
 #not sure about these:
-[
-Continuation,
-:Thread,
-:ThreadGroup,
-
-:Mutex, #??
 #and other interthead communication mechanisms, like
-:Queue,
-:SizedQueue,
-:RingBuffer,
-:ConditionVariable,
-:Semaphore,
-:CountingSemaphore,
-:Multiwait,
-].each{|sym|
-  k=(Object.const_get(sym) rescue nil) and 
+eval("["+%w[
+Continuation
+Thread
+ThreadGroup
+Mutex
+Queue
+SizedQueue
+RingBuffer
+ConditionVariable
+Semaphore
+CountingSemaphore
+Multiwait
+].map{|x| "(#{x} if defined? #{x}), "}.join+"]").compact.each{|k|
   k.class_eval do
     def to_ron(x=nil); raise Ron:: NotYetMaybeNeverSerializeableError end
     alias to_ron_list to_ron
