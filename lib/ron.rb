@@ -359,7 +359,7 @@ class Binding
       k.to_s
     }.join(',')+',=*Thread.current[:$__Ron__CaptureCtx]'
     mname="Ron__capture_binding#{Thread.current.object_id}" #unlikely method name
-    newmname=result=nil
+    oldmname=newmname=result=nil
 
     eval "
            newmname=class<<the_self;
@@ -367,7 +367,7 @@ class Binding
              im=instance_methods
              im.map!{|sym| sym.to_s} if Symbol===im.first
              mname+='-' while im.include? mname
-             alias_method mname, oldmname
+             alias_method mname, oldmname if im.include? oldmname
              def #{mname}
                #{code}
                binding
