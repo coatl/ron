@@ -155,6 +155,10 @@ data=[
 
  "\\",
  "'", 
+ Time.now,
+ Dir.new('.'),
+ Date.new,
+ File::Stat.new('.'),
 ]
 data.each{|datum|
   GC.disable
