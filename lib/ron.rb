@@ -411,6 +411,7 @@ end
 Proc,
 Method,
 UnboundMethod,
+File::Stat,
 #Binding,  #??
 ].each{|k| 
   k.class_eval do
