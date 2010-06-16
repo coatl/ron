@@ -319,6 +319,11 @@ class Range
   end
 end
 
+class Time
+  def to_ron_list session
+    [self.class.name, ".at(", to_i.to_s, ",", usec.to_s, ")"]
+  end
+end
 
 class Module
   def to_ron
