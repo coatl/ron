@@ -92,6 +92,13 @@ end
 module M
 end
 
+unless Dir.new('.')==Dir.new('.')
+  class Dir
+    def ==(other)
+      self.class==other.class and path==other.path and pos==other.pos
+    end
+  end
+end
 
 class RonTest<Test::Unit::TestCase
 
